@@ -130,8 +130,8 @@ const Room = ({ roomId }) => {
       <button
         disabled={!startRecording.isCallable}
         onClick={() => {
-          console.log(`http://localhost:3001/`);
-          startRecording(`http://localhost:3001/`);
+          console.log(`http://${window.location.host}/record/${roomId}`);
+          startRecording(`http://${window.location.host}/record/${roomId}`);
         }}
       >
         START_RECORDING
@@ -139,11 +139,9 @@ const Room = ({ roomId }) => {
 
       {isStarting ? "Recording is starting" : recordingError}
 
-      <div>
-        <button disabled={!stopRecording.isCallable} onClick={stopRecording}>
-          STOP_RECORDING
-        </button>
-      </div>
+      <button disabled={!stopRecording.isCallable} onClick={stopRecording}>
+        STOP_RECORDING
+      </button>
 
       <video ref={videoRef} autoPlay muted></video>
       <div className="grid grid-cols-4">

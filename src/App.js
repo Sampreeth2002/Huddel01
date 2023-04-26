@@ -91,14 +91,14 @@ function App() {
       <div className="App">
         <>
           <Navigation web3Handler={web3Handler} account={account} />
-          {/* <Routes>
+          <Routes>
             <Route
               path="/record/:roomIdFromUrl"
               element={
                 <Record marketplace={marketplace} nft={nft} room={room} />
               }
             />
-          </Routes> */}
+          </Routes>
         </>
         <div>
           {loading ? (
