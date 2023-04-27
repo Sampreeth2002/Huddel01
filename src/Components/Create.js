@@ -90,7 +90,7 @@ const Create = ({ marketplace, nft }) => {
                 size="lg"
                 required
                 type="number"
-                placeholder="Price in ETH"
+                placeholder="Price in TFIL"
               />
               <div className="d-grid px-0">
                 <Button onClick={createNFT} variant="primary" size="lg">

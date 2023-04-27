@@ -15,14 +15,18 @@ import AccountInforAbi from "./abis/AccountInfo.json";
 import AccountInfoAddress from "./abis/AccountInfo-address.json";
 import AllRooms from "./Components/AllRooms";
 import CreateRoom from "./Components/CreateRoom";
+import CreatorNFT from "./Components/CreatorNFT";
 import Record from "./Components/Record";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
+import { ItemsProvider } from "./Components/Context/ItemsContext";
 import { ethers } from "ethers";
 import { Spinner } from "react-bootstrap";
 import "./App.css";
 
 import Test from "./Components/test";
 import JoinRoom from "./Components/JoinRoom";
+
+export const AppContext = createContext();
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -32,6 +36,7 @@ function App() {
   const [room, setRoom] = useState({});
   const [accountInfo, setAccountInfo] = useState();
   const [singedInUser, setSingedInUser] = useState(true);
+  const [userInfo, setUserInfo] = useState(null);
   // MetaMask Login/Connect
   const web3Handler = async () => {
     const accounts = await window.ethereum.request({
@@ -57,10 +62,14 @@ function App() {
   useEffect(() => {
     const checkSignedInUser = async () => {
       let check = await accountInfo.userExists(account);
-      setSingedInUser(true);
+      setSingedInUser(check);
     };
     if (accountInfo) checkSignedInUser();
   }, [account, accountInfo]);
+
+  useEffect(() => {
+    web3Handler();
+  }, []);
 
   const loadContracts = async (signer) => {
     // Get deployed copies of contracts
@@ -81,24 +90,22 @@ function App() {
     );
     setAccountInfo(accountDetails);
 
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const userInfo = await accountDetails.getUser({ from: accounts[0] });
+    setUserInfo(userInfo);
+
     setLoading(false);
   };
 
   return !singedInUser ? (
-    <Signup />
+    <Signup accountInfo={accountInfo} />
   ) : (
     <BrowserRouter>
       <div className="App">
         <>
           <Navigation web3Handler={web3Handler} account={account} />
-          <Routes>
-            <Route
-              path="/record/:roomIdFromUrl"
-              element={
-                <Record marketplace={marketplace} nft={nft} room={room} />
-              }
-            />
-          </Routes>
         </>
         <div>
           {loading ? (
@@ -111,62 +118,103 @@ function App() {
               }}
             >
               <Spinner animation="border" style={{ display: "flex" }} />
+
               <p className="mx-3 my-0">Awaiting Metamask Connection...</p>
             </div>
           ) : (
-            <Routes>
-              <Route
-                path="/"
-                element={<Home marketplace={marketplace} nft={nft} />}
-              />
-              <Route
-                path="/create"
-                element={<Create marketplace={marketplace} nft={nft} />}
-              />
-              <Route
-                path="/my-listed-items"
-                element={
-                  <MyListedItems
-                    marketplace={marketplace}
-                    nft={nft}
-                    account={account}
+            <>
+              {
+                <p className="mx-3 my-0">
+                  {userInfo[0]} {userInfo[2]}
+                </p>
+              }
+              <ItemsProvider>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <Home
+                        userInfo={userInfo}
+                        marketplace={marketplace}
+                        nft={nft}
+                      />
+                    }
                   />
-                }
-              />
-              <Route
-                path="/my-purchases"
-                element={
-                  <MyPurchases
-                    marketplace={marketplace}
-                    nft={nft}
-                    account={account}
+                  <Route
+                    path="/create"
+                    element={<Create marketplace={marketplace} nft={nft} />}
                   />
-                }
-              />
-              <Route
-                path="/all-rooms"
-                element={
-                  <AllRooms
-                    marketplace={marketplace}
-                    nft={nft}
-                    account={account}
-                    room={room}
+                  <Route
+                    path="/my-listed-items"
+                    element={
+                      <MyListedItems
+                        marketplace={marketplace}
+                        nft={nft}
+                        account={account}
+                      />
+                    }
                   />
-                }
-              />
-              <Route
-                path="/create-room"
-                element={
-                  <CreateRoom marketplace={marketplace} nft={nft} room={room} />
-                }
-              />
-              <Route
-                path="/join-room/:roomId/:hex"
-                element={
-                  <JoinRoom marketplace={marketplace} nft={nft} room={room} />
-                }
-              />
-            </Routes>
+                  <Route
+                    path="/my-purchases"
+                    element={
+                      <MyPurchases
+                        marketplace={marketplace}
+                        nft={nft}
+                        account={account}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/all-rooms"
+                    element={
+                      <AllRooms
+                        marketplace={marketplace}
+                        nft={nft}
+                        account={account}
+                        room={room}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/create-room"
+                    element={
+                      <CreateRoom
+                        marketplace={marketplace}
+                        nft={nft}
+                        room={room}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/join-room/:roomId/:hex"
+                    element={
+                      <JoinRoom
+                        marketplace={marketplace}
+                        nft={nft}
+                        room={room}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/record/:roomIdFromUrl"
+                    element={
+                      <Record marketplace={marketplace} nft={nft} room={room} />
+                    }
+                  />
+                  <Route
+                    path="/creator-nfts/:creatorAddress"
+                    element={
+                      <CreatorNFT
+                        marketplace={marketplace}
+                        nft={nft}
+                        room={room}
+                        userInfo={userInfo}
+                      />
+                    }
+                  />
+                </Routes>
+              </ItemsProvider>
+            </>
           )}
         </div>
       </div>
