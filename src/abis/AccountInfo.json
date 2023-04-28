@@ -10,6 +10,11 @@
         "internalType": "string",
         "name": "_description",
         "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_profilePic",
+        "type": "string"
       }
     ],
     "name": "createUser",
@@ -18,7 +23,13 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "userAddress",
+        "type": "address"
+      }
+    ],
     "name": "getUser",
     "outputs": [
       {
@@ -30,6 +41,11 @@
         "internalType": "address",
         "name": "",
         "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
       },
       {
         "internalType": "string",

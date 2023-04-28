@@ -26,24 +26,42 @@ async function getWalletAddress() {
 export default function Signup({ accountInfo }) {
   const [name, setName] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
-
+  const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
 
   const uploadDetails = async () => {
-    const address = await getWalletAddress();
-    setWalletAddress(address);
+    if (image !== "") {
+      console.log(image);
+      const address = await getWalletAddress();
+      setWalletAddress(address);
 
-    console.log(accountInfo);
+      console.log(accountInfo);
 
-    const tx = await accountInfo.createUser(name, description, {
-      from: address,
-    });
-    await tx.wait();
+      const tx = await accountInfo.createUser(name, description, image, {
+        from: address,
+      });
+      await tx.wait();
+    }
+  };
+
+  const progressCallback = (progressData) => {
+    let percentageDone =
+      100 - (progressData?.total / progressData?.uploaded)?.toFixed(2);
+    console.log(percentageDone);
+  };
+
+  const uploadFile = async (e) => {
+    const output = await lighthouse.upload(
+      e,
+      "7f431ff1.e8fc8d458b6645348cb20014441117a8",
+      progressCallback
+    );
+    setImage("https://gateway.lighthouse.storage/ipfs/" + output.data.Hash);
   };
 
   return (
     <>
-      <Row className="g-4">
+      <Row>
         <Form.Control
           onChange={(e) => setName(e.target.value)}
           size="lg"
@@ -58,7 +76,13 @@ export default function Signup({ accountInfo }) {
           as="textarea"
           placeholder="Description"
         />
-        <div className="d-grid px-0">
+        <Form.Control
+          type="file"
+          required
+          name="file"
+          onChange={(e) => uploadFile(e)}
+        />
+        <div>
           <Button onClick={uploadDetails} variant="primary" size="lg">
             Sign Up!
           </Button>

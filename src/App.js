@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useContext } from "react";
 import Navigation from "./Components/Navbar";
+import AllNFTs from "./Components/AllNFTs";
 import Home from "./Components/Home";
 import Create from "./Components/Create.js";
 import MyListedItems from "./Components/MyListedItems.js";
@@ -19,6 +21,8 @@ import CreatorNFT from "./Components/CreatorNFT";
 import Record from "./Components/Record";
 import { useState, useEffect, createContext } from "react";
 import { ItemsProvider } from "./Components/Context/ItemsContext";
+import { ItemsContext } from "./Components/Context/ItemsContext";
+
 import { ethers } from "ethers";
 import { Spinner } from "react-bootstrap";
 import "./App.css";
@@ -36,7 +40,7 @@ function App() {
   const [room, setRoom] = useState({});
   const [accountInfo, setAccountInfo] = useState();
   const [singedInUser, setSingedInUser] = useState(true);
-  const [userInfo, setUserInfo] = useState(null);
+  const { userInfo, setUserInfo } = useContext(ItemsContext);
   // MetaMask Login/Connect
   const web3Handler = async () => {
     const accounts = await window.ethereum.request({
@@ -93,17 +97,17 @@ function App() {
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
-    const userInfo = await accountDetails.getUser({ from: accounts[0] });
+    const userInfo = await accountDetails.getUser(accounts[0]);
+
     setUserInfo(userInfo);
 
     setLoading(false);
   };
-
   return !singedInUser ? (
     <Signup accountInfo={accountInfo} />
   ) : (
     <BrowserRouter>
-      <div className="App">
+      <div>
         <>
           <Navigation web3Handler={web3Handler} account={account} />
         </>
@@ -119,101 +123,109 @@ function App() {
             >
               <Spinner animation="border" style={{ display: "flex" }} />
 
-              <p className="mx-3 my-0">Awaiting Metamask Connection...</p>
+              <p>Awaiting Metamask Connection...</p>
             </div>
           ) : (
             <>
-              {
-                <p className="mx-3 my-0">
-                  {userInfo[0]} {userInfo[2]}
-                </p>
-              }
-              <ItemsProvider>
-                <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      <Home
-                        userInfo={userInfo}
-                        marketplace={marketplace}
-                        nft={nft}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/create"
-                    element={<Create marketplace={marketplace} nft={nft} />}
-                  />
-                  <Route
-                    path="/my-listed-items"
-                    element={
-                      <MyListedItems
-                        marketplace={marketplace}
-                        nft={nft}
-                        account={account}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/my-purchases"
-                    element={
-                      <MyPurchases
-                        marketplace={marketplace}
-                        nft={nft}
-                        account={account}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/all-rooms"
-                    element={
-                      <AllRooms
-                        marketplace={marketplace}
-                        nft={nft}
-                        account={account}
-                        room={room}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/create-room"
-                    element={
-                      <CreateRoom
-                        marketplace={marketplace}
-                        nft={nft}
-                        room={room}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/join-room/:roomId/:hex"
-                    element={
-                      <JoinRoom
-                        marketplace={marketplace}
-                        nft={nft}
-                        room={room}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/record/:roomIdFromUrl"
-                    element={
-                      <Record marketplace={marketplace} nft={nft} room={room} />
-                    }
-                  />
-                  <Route
-                    path="/creator-nfts/:creatorAddress"
-                    element={
-                      <CreatorNFT
-                        marketplace={marketplace}
-                        nft={nft}
-                        room={room}
-                        userInfo={userInfo}
-                      />
-                    }
-                  />
-                </Routes>
-              </ItemsProvider>
+              {/* {
+                  <p>
+                    {userInfo[0]} {userInfo[2]}
+                    <img src={userInfo[3]} width={"100px"} alt="" />
+                  </p>
+                } */}
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <Home
+                      userInfo={userInfo}
+                      marketplace={marketplace}
+                      nft={nft}
+                    />
+                  }
+                />
+
+                <Route
+                  path="/all-nfts"
+                  element={
+                    <AllNFTs
+                      accountInfo={accountInfo}
+                      userInfo={userInfo}
+                      marketplace={marketplace}
+                      nft={nft}
+                    />
+                  }
+                />
+                <Route
+                  path="/create"
+                  element={<Create marketplace={marketplace} nft={nft} />}
+                />
+                <Route
+                  path="/my-listed-items"
+                  element={
+                    <MyListedItems
+                      marketplace={marketplace}
+                      nft={nft}
+                      account={account}
+                    />
+                  }
+                />
+                <Route
+                  path="/my-purchases"
+                  element={
+                    <MyPurchases
+                      marketplace={marketplace}
+                      nft={nft}
+                      account={account}
+                    />
+                  }
+                />
+                <Route
+                  path="/all-rooms"
+                  element={
+                    <AllRooms
+                      marketplace={marketplace}
+                      nft={nft}
+                      account={account}
+                      room={room}
+                    />
+                  }
+                />
+                <Route
+                  path="/create-room"
+                  element={
+                    <CreateRoom
+                      marketplace={marketplace}
+                      nft={nft}
+                      room={room}
+                    />
+                  }
+                />
+                <Route
+                  path="/join-room/:roomId/:hex"
+                  element={
+                    <JoinRoom marketplace={marketplace} nft={nft} room={room} />
+                  }
+                />
+                <Route
+                  path="/record/:roomIdFromUrl"
+                  element={
+                    <Record marketplace={marketplace} nft={nft} room={room} />
+                  }
+                />
+                <Route
+                  path="/creator-nfts/:creatorAddress"
+                  element={
+                    <CreatorNFT
+                      marketplace={marketplace}
+                      nft={nft}
+                      room={room}
+                      userInfo={userInfo}
+                      accountInfo={accountInfo}
+                    />
+                  }
+                />
+              </Routes>
             </>
           )}
         </div>

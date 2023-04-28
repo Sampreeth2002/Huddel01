@@ -62,9 +62,6 @@ export default function JoinRoom({ nft, marketplace, room }) {
           "Not Authorized to join the room"
         )}
       </div>
-      <div>{roomId}</div>
-      {/* <div>{account}</div> */}
-      <div>{}</div>
     </div>
   );
 }

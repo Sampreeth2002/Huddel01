@@ -1,8 +1,17 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { Row, Form, Button } from "react-bootstrap";
-import lighthouse from "@lighthouse-web3/sdk";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { create as ipfsHttpClient } from "ipfs-http-client";
+import lighthouse from "@lighthouse-web3/sdk";
+import "./Card.css";
+
 const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 
 const Create = ({ marketplace, nft }) => {
@@ -37,6 +46,7 @@ const Create = ({ marketplace, nft }) => {
     );
     setImage("https://gateway.lighthouse.storage/ipfs/" + output.data.Hash);
   };
+
   const createNFT = async () => {
     if (!image || !price || !name || !description) return;
     try {
@@ -44,6 +54,7 @@ const Create = ({ marketplace, nft }) => {
       mintThenList(result, userAddress);
     } catch (error) {}
   };
+
   const mintThenList = async (uri, userAddress) => {
     // mint nft
     await (await nft.mint(uri, userAddress)).wait();
@@ -56,51 +67,87 @@ const Create = ({ marketplace, nft }) => {
     await (await marketplace.makeItem(nft.address, id, listingPrice)).wait();
   };
   return (
-    <div className="container-fluid mt-5">
-      <div className="row">
-        <main
-          role="main"
-          className="col-lg-12 mx-auto"
-          style={{ maxWidth: "1000px" }}
-        >
-          <div className="content mx-auto">
-            <Row className="g-4">
-              <Form.Control
-                type="file"
-                required
-                name="file"
-                onChange={(e) => uploadFile(e)}
-              />
-              <Form.Control
-                onChange={(e) => setName(e.target.value)}
-                size="lg"
-                required
-                type="text"
-                placeholder="Name"
-              />
-              <Form.Control
-                onChange={(e) => setDescription(e.target.value)}
-                size="lg"
-                required
-                as="textarea"
-                placeholder="Description"
-              />
-              <Form.Control
-                onChange={(e) => setPrice(e.target.value)}
-                size="lg"
-                required
-                type="number"
-                placeholder="Price in TFIL"
-              />
-              <div className="d-grid px-0">
-                <Button onClick={createNFT} variant="primary" size="lg">
-                  Create & List NFT!
-                </Button>
-              </div>
-            </Row>
-          </div>
-        </main>
-      </div>
+    <div style={{ textAlign: "center" }}>
+      <Grid container spacing={2} alignItems="center" justifyContent="center">
+        <Grid item xs={12} style={{ paddingTop: "7vh" }}>
+          <Typography style={{ color: "white", fontSize: "4vh" }}>
+            Create NFT
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            onChange={(e) => setName(e.target.value)}
+            required
+            label="Name"
+            style={{
+              borderColor: "rgb(59,130,246,0.5)",
+              borderWidth: "2px",
+              borderRadius: "3px",
+              borderStyle: "solid",
+              color: "white",
+            }}
+            InputLabelProps={{
+              style: { color: "white" },
+            }}
+            InputProps={{
+              style: { color: "white" },
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            onChange={(e) => setDescription(e.target.value)}
+            required
+            label="Description"
+            style={{
+              borderColor: "rgb(59,130,246,0.5)",
+              borderWidth: "2px",
+              borderRadius: "3px",
+              borderStyle: "solid",
+            }}
+            InputLabelProps={{
+              style: { color: "white" },
+            }}
+            InputProps={{
+              style: { color: "white" },
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            onChange={(e) => setPrice(e.target.value)}
+            required
+            type="number"
+            label="Price (TFIL)"
+            style={{
+              borderColor: "rgb(59,130,246,0.5)",
+              borderWidth: "2px",
+              borderRadius: "3px",
+              borderStyle: "solid",
+            }}
+            InputLabelProps={{
+              style: { color: "white" },
+            }}
+            InputProps={{
+              style: { color: "white" },
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <input
+            type="file"
+            required
+            name="file"
+            onChange={uploadFile}
+            style={{ color: "white" }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button onClick={createNFT} variant="contained" size="large">
+            Create & List NFT!
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 };

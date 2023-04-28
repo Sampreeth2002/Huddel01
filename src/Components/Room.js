@@ -10,6 +10,7 @@ import {
 } from "@huddle01/react/hooks";
 import { useState, useEffect, useRef } from "react";
 import { Video, Audio } from "@huddle01/react/components";
+
 // const {
 //   startRecording,
 //   stoprecording,
@@ -56,6 +57,33 @@ const Room = ({ roomId }) => {
     initialize("KL1r3E1yHfcrRbXsT4mcE-3mK60Yc3YR");
   }, []);
 
+  let fetchStreams = () => {
+    return new Promise(async (resolve, reject) => {
+      if (fetchAudioStream.isCallable && fetchVideoStream.isCallable) {
+        try {
+          await Promise.all([fetchAudioStream(), fetchVideoStream()]);
+          if (stopVideoStream.isCallable && joinRoom.isCallable) {
+            joinRoom();
+          }
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      } else {
+        reject(
+          new Error("One or more stream fetching functions are not callable.")
+        );
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (isInitialized) {
+      joinLobby(roomId);
+      // fetchStreams();
+    }
+  }, [initialize]);
+
   const videoRef = useRef(null);
 
   useEventListener("lobby:cam-on", () => {
@@ -65,12 +93,12 @@ const Room = ({ roomId }) => {
   if (inProgress) return <div>...loading</div>;
   return (
     <div>
-      <h2 className="text-2xl">App State</h2>
-      <h3>{JSON.stringify(state.value)}</h3>
-      {isInitialized ? "Hello World!" : "Please initialize"}
+      {/* <h2>App State</h2>
+      <h3>{JSON.stringify(state.value)}</h3> */}
+      {/* {isInitialized ? "Hello World!" : "Please initialize"} */}
       <button
         disabled={!joinLobby.isCallable}
-        onClick={() => joinLobby(roomId)}
+        // onClick={() => joinLobby(roomId)}
       >
         Join Lobby
       </button>
@@ -89,6 +117,10 @@ const Room = ({ roomId }) => {
         onClick={fetchVideoStream}
       >
         FETCH_VIDEO_STREAM
+      </button>
+
+      <button disabled={!stopVideoStream.isCallable} onClick={stopVideoStream}>
+        STOP_VIDEO_STREAM
       </button>
 
       <button disabled={!joinRoom.isCallable} onClick={joinRoom}>
@@ -142,29 +174,36 @@ const Room = ({ roomId }) => {
       <button disabled={!stopRecording.isCallable} onClick={stopRecording}>
         STOP_RECORDING
       </button>
-
-      <video ref={videoRef} autoPlay muted></video>
-      <div className="grid grid-cols-4">
-        {Object.values(peers)
-          .filter((peer) => peer.cam)
-          .map((peer) => (
-            <Video
-              key={peer.peerId}
-              peerId={peer.peerId}
-              track={peer.cam}
-              debug
-            />
-          ))}
-        {Object.values(peers)
-          .filter((peer) => peer.mic)
-          .map((peer) => (
-            <Audio
-              key={peer.peerId}
-              peerId={peer.peerId}
-              track={peer.mic}
-              debug
-            />
-          ))}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "10px",
+        }}
+      >
+        <video ref={videoRef} autoPlay muted></video>
+        <div>
+          {Object.values(peers)
+            .filter((peer) => peer.cam)
+            .map((peer) => (
+              <Video
+                key={peer.peerId}
+                peerId={peer.peerId}
+                track={peer.cam}
+                // debug
+              />
+            ))}
+          {Object.values(peers)
+            .filter((peer) => peer.mic)
+            .map((peer) => (
+              <Audio
+                key={peer.peerId}
+                peerId={peer.peerId}
+                track={peer.mic}
+                debug
+              />
+            ))}
+        </div>
       </div>
     </div>
   );
