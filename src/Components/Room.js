@@ -186,8 +186,8 @@ const Room = ({ roomId }) => {
       <button
         disabled={!startRecording.isCallable}
         onClick={() => {
-          console.log(`http://${window.location.host}/record/${roomId}`);
-          startRecording(`http://${window.location.host}/record/${roomId}`);
+          console.log("https://huddle-recorder.vercel.app/");
+          startRecording("https://huddle-recorder.vercel.app/");
         }}
       >
         START_RECORDING
