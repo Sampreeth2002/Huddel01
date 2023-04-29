@@ -11,18 +11,12 @@ import {
 import { useState, useEffect, useRef } from "react";
 import { Video, Audio } from "@huddle01/react/components";
 
-// const {
-//   startRecording,
-//   stoprecording,
-//   isStarting,
-//   inProgress,
-//   isStopping,
-//   error,
-// } = useRecording();
-
 const Room = ({ roomId }) => {
   const { initialize, isInitialized } = useHuddle01();
+  const [isPeerInitialized, setIsPeerInitialized] = useState(false);
   const { joinLobby } = useLobby();
+  const [isPeerJoinedLobby, setIsPeerJoinedLobby] = useState(false);
+  const [isVideoOn, setIsVideoOn] = useState(false);
   const {
     startRecording,
     stopRecording,
@@ -55,34 +49,64 @@ const Room = ({ roomId }) => {
   useEffect(() => {
     // its preferable to use env vars to store projectId
     initialize("KL1r3E1yHfcrRbXsT4mcE-3mK60Yc3YR");
+    setIsPeerInitialized(true);
   }, []);
 
-  let fetchStreams = () => {
-    return new Promise(async (resolve, reject) => {
-      if (fetchAudioStream.isCallable && fetchVideoStream.isCallable) {
-        try {
-          await Promise.all([fetchAudioStream(), fetchVideoStream()]);
-          if (stopVideoStream.isCallable && joinRoom.isCallable) {
-            joinRoom();
-          }
-          resolve();
-        } catch (error) {
-          reject(error);
-        }
-      } else {
-        reject(
-          new Error("One or more stream fetching functions are not callable.")
-        );
+  const fetchStreams = async () => {
+    console.log("in fetch Stream");
+    console.log(fetchAudioStream.isCallable);
+    console.log(fetchVideoStream.isCallable);
+
+    if (fetchAudioStream.isCallable && fetchVideoStream.isCallable) {
+      console.log("Inside if");
+      try {
+        fetchVideoStream();
+        fetchAudioStream();
+
+        console.log("sgd");
+      } catch (error) {
+        console.error(error);
       }
-    });
+    }
   };
 
   useEffect(() => {
-    if (isInitialized) {
-      joinLobby(roomId);
-      // fetchStreams();
+    const fetchData = async () => {
+      if (isPeerInitialized) {
+        try {
+          joinLobby(roomId);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [isPeerInitialized, roomId]);
+
+  useEffect(() => {
+    if (!joinLobby.isCallable) {
+      fetchStreams();
     }
-  }, [initialize]);
+  }, [
+    joinLobby.isCallable,
+    fetchAudioStream.isCallable,
+    fetchVideoStream.isCallable,
+  ]);
+
+  useEffect(() => {
+    if (
+      stopVideoStream.isCallable &&
+      joinRoom.isCallable &&
+      stopAudioStream.isCallable
+    ) {
+      joinRoom();
+    }
+  }, [
+    stopVideoStream.isCallable,
+    joinRoom.isCallable,
+    stopAudioStream.isCallable,
+  ]);
 
   const videoRef = useRef(null);
 
