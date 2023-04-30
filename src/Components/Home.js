@@ -16,253 +16,81 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { ItemsContext } from "./Context/ItemsContext";
 import "../App.css";
+import "./Room.css";
 
 function Home() {
   const { allItems, userInfo } = useContext(ItemsContext);
-  console.log(allItems);
 
   return (
     <>
-      {/* <div>Live Streams</div>
-      <div>Active Rooms</div>
-      <div>Privileged calls</div> */}
       <div>
-        <div style={{ padding: "2vw" }}>
-          <div style={{ paddingBottom: "2vw", fontSize: "2vw" }}>
-            Live Streams
+        <div
+          style={{
+            paddingTop: "4vh",
+            paddingBottom: "2vh",
+            fontSize: "2vw",
+            color: "white",
+            textAlign: "center",
+          }}
+        >
+          Live Streams
+        </div>
+        <div className="card-container">
+          <div style={{ padding: "2vw" }}>
+            <figure className="snip1527">
+              <div className="image">
+                <img alt="pr-sample23" />
+              </div>
+              <figcaption>
+                {/* <div className="date">
+                  <span className="day">28</span>
+                  <span className="month">Oct</span>
+                </div> */}
+                <h3>Sampreeth Live Stream</h3>
+                <p>
+                  You know what we need, Hobbes? We need an attitude. Yeah, you
+                  can't be cool if you don't have an attitude.
+                </p>
+              </figcaption>
+              <a href="/smapreeth"></a>
+            </figure>
           </div>
-          <div className="card-container">
-            <div style={{ padding: "2vw" }}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      R
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title="Shrimp and Chorizo Paella"
-                  subheader="September 14, 2016"
-                />
-                <CardMedia
-                  component="img"
-                  height="180"
-                  image="https://w0.peakpx.com/wallpaper/677/237/HD-wallpaper-mrbeast-mr-beast-youtube.jpg"
-                  alt="Paella dish"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </div>
-            <div style={{ padding: "2vw" }}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      R
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title="Shrimp and Chorizo Paella"
-                  subheader="September 14, 2016"
-                />
-                <CardMedia
-                  component="img"
-                  height="194"
-                  image="/static/images/cards/paella.jpg"
-                  alt="Paella dish"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </div>
-          </div>
+        </div>
+      </div>
 
-          <div style={{ paddingBottom: "2vw", fontSize: "2vw" }}>Rooms</div>
-          <div className="card-container">
-            <div style={{ padding: "2vw" }}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      R
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title="Shrimp and Chorizo Paella"
-                  subheader="September 14, 2016"
+      <div>
+        <div
+          style={{
+            paddingBottom: "2vw",
+            fontSize: "2vw",
+            color: "white",
+            textAlign: "center",
+          }}
+        >
+          Recordings
+        </div>
+        <div className="card-container">
+          <div style={{ padding: "2vw" }}>
+            <figure className="snip1527">
+              <div className="image">
+                <img
+                  src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample23.jpg"
+                  alt="pr-sample23"
                 />
-                <CardMedia
-                  component="img"
-                  height="180"
-                  image="https://w0.peakpx.com/wallpaper/677/237/HD-wallpaper-mrbeast-mr-beast-youtube.jpg"
-                  alt="Paella dish"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </div>
-            <div style={{ padding: "2vw" }}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      R
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title="Shrimp and Chorizo Paella"
-                  subheader="September 14, 2016"
-                />
-                <CardMedia
-                  component="img"
-                  height="194"
-                  image="/static/images/cards/paella.jpg"
-                  alt="Paella dish"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </div>
-          </div>
-          <div style={{ paddingBottom: "2vw", fontSize: "2vw" }}>
-            Privileged Calls
-          </div>
-          <div className="card-container">
-            <div style={{ padding: "2vw" }}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      R
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title="Shrimp and Chorizo Paella"
-                  subheader="September 14, 2016"
-                />
-                <CardMedia
-                  component="img"
-                  height="180"
-                  image="https://w0.peakpx.com/wallpaper/677/237/HD-wallpaper-mrbeast-mr-beast-youtube.jpg"
-                  alt="Paella dish"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </div>
-            <div style={{ padding: "2vw" }}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      R
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title="Shrimp and Chorizo Paella"
-                  subheader="September 14, 2016"
-                />
-                <CardMedia
-                  component="img"
-                  height="194"
-                  image="/static/images/cards/paella.jpg"
-                  alt="Paella dish"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </div>
+              </div>
+              <figcaption>
+                <div className="date">
+                  <span className="day">28</span>
+                  <span className="month">Oct</span>
+                </div>
+                <h3>The World Ended Yesterday</h3>
+                <p>
+                  You know what we need, Hobbes? We need an attitude. Yeah, you
+                  can't be cool if you don't have an attitude.
+                </p>
+              </figcaption>
+              <a href="#"></a>
+            </figure>
           </div>
         </div>
       </div>

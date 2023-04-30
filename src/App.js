@@ -19,12 +19,15 @@ import AllRooms from "./Components/AllRooms";
 import CreateRoom from "./Components/CreateRoom";
 import CreatorNFT from "./Components/CreatorNFT";
 import Record from "./Components/Record";
+import Resell from "./Components/Resell";
+import AllSpecailEditionBuyers from "./Components/AllSpecailEditionBuyers";
 import { useState, useEffect, createContext } from "react";
 import { ItemsProvider } from "./Components/Context/ItemsContext";
 import { ItemsContext } from "./Components/Context/ItemsContext";
 
 import { ethers } from "ethers";
-import { Spinner } from "react-bootstrap";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import "./App.css";
 
 import Test from "./Components/test";
@@ -121,9 +124,12 @@ function App() {
                 minHeight: "80vh",
               }}
             >
-              <Spinner animation="border" style={{ display: "flex" }} />
+              <CircularProgress />
+              <br />
 
-              <p>Awaiting Metamask Connection...</p>
+              <p style={{ color: "white", marginLeft: "8px" }}>
+                Awaiting Metamask Connection...
+              </p>
             </div>
           ) : (
             <>
@@ -176,6 +182,7 @@ function App() {
                     <MyPurchases
                       marketplace={marketplace}
                       nft={nft}
+                      accountInfo={accountInfo}
                       account={account}
                     />
                   }
@@ -188,6 +195,8 @@ function App() {
                       nft={nft}
                       account={account}
                       room={room}
+                      accountInfo={accountInfo}
+                      userInfo={userInfo}
                     />
                   }
                 />
@@ -217,6 +226,30 @@ function App() {
                   path="/creator-nfts/:creatorAddress"
                   element={
                     <CreatorNFT
+                      marketplace={marketplace}
+                      nft={nft}
+                      room={room}
+                      userInfo={userInfo}
+                      accountInfo={accountInfo}
+                    />
+                  }
+                />
+                <Route
+                  path="/resell-nft/:itemId"
+                  element={
+                    <Resell
+                      marketplace={marketplace}
+                      nft={nft}
+                      room={room}
+                      userInfo={userInfo}
+                      accountInfo={accountInfo}
+                    />
+                  }
+                />
+                <Route
+                  path="/all-special-edition-nft-buyers/"
+                  element={
+                    <AllSpecailEditionBuyers
                       marketplace={marketplace}
                       nft={nft}
                       room={room}

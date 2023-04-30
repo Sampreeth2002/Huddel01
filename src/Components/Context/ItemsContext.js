@@ -47,6 +47,8 @@ export const ItemsProvider = ({ children }) => {
               name: metadata.name,
               description: metadata.description,
               image: metadata.image,
+              isSpecialEdition: item.isSpecialEdition,
+              sold: item.sold,
             };
           })
         );
@@ -58,7 +60,6 @@ export const ItemsProvider = ({ children }) => {
       items.forEach(async (item, index) => {
         const seller = item.seller;
         // let sellerInformation = await accountInfo.getUser({ from: item.seller });
-        // console.log(sellerInformation);
         const sellerItems = itemsBySellerMap.get(seller) || [];
         sellerItems.push(item);
         itemsBySellerMap.set(seller, sellerItems);

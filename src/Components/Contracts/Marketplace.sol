@@ -21,6 +21,7 @@ contract Marketplace is ReentrancyGuard {
         uint price;
         address payable seller;
         bool sold;
+        bool isSpecialEdition;
     }
 
     // itemId -> Item
@@ -31,16 +32,21 @@ contract Marketplace is ReentrancyGuard {
         address indexed nft,
         uint tokenId,
         uint price,
-        address indexed seller
+        address indexed seller,
+        bool isSpecialEdition
     );
+
     event Bought(
         uint itemId,
         address indexed nft,
         uint tokenId,
         uint price,
         address indexed seller,
-        address indexed buyer
+        address indexed buyer,
+        bool isSpecialEdition
     );
+
+    
 
     constructor(uint _feePercent) {
         feeAccount = payable(msg.sender);
@@ -48,7 +54,7 @@ contract Marketplace is ReentrancyGuard {
     }
 
     // Make item to offer on the marketplace
-    function makeItem(IERC721 _nft, uint _tokenId, uint _price) external nonReentrant {
+    function makeItem(IERC721 _nft, uint _tokenId, uint _price,bool _isSpecialEdition) external nonReentrant {
         require(_price > 0, "Price must be greater than zero");
         // increment itemCount
         itemCount ++;
@@ -61,7 +67,8 @@ contract Marketplace is ReentrancyGuard {
             _tokenId,
             _price,
             payable(msg.sender),
-            false
+            false,
+            _isSpecialEdition
         );
         // emit Offered event
         emit Offered(
@@ -69,7 +76,8 @@ contract Marketplace is ReentrancyGuard {
             address(_nft),
             _tokenId,
             _price,
-            msg.sender
+            msg.sender,
+            _isSpecialEdition
         );
     }
 
@@ -93,7 +101,8 @@ contract Marketplace is ReentrancyGuard {
             item.tokenId,
             item.price,
             item.seller,
-            msg.sender
+            msg.sender,
+            item.isSpecialEdition
         );
     }
     function getTotalPrice(uint _itemId) view public returns(uint){
@@ -104,5 +113,78 @@ contract Marketplace is ReentrancyGuard {
         require(_itemId > 0 && _itemId <= itemCount, "item doesn't exist");
         return items[_itemId].nft.ownerOf(items[_itemId].tokenId);
     }
+
+    function getSpecialEditionBuyers() external view returns (address[] memory) {
+        uint count = 0;
+        // loop through all items and count the special edition buyers
+        for (uint i = 1; i <= itemCount; i++) {
+            if (items[i].isSpecialEdition && items[i].sold) {
+                count++;
+            }
+        }
+        // create an array to store the special edition buyers
+        address[] memory specialEditionBuyers = new address[](count);
+        // loop through all items again and add the special edition buyers to the array
+        uint index = 0;
+        for (uint i = 1; i <= itemCount; i++) {
+            if (items[i].isSpecialEdition && items[i].sold) {
+                specialEditionBuyers[index] = items[i].nft.ownerOf(items[i].tokenId);
+                index++;
+            }
+        }
+        return specialEditionBuyers;
+    }
+
+
+    function getSpecialEditionBuyersByAddress(address _seller) external view returns (address[] memory) {
+        uint count = 0;
+        // loop through all items and count the special edition buyers of a particular seller
+        for (uint i = 1; i <= itemCount; i++) {
+            if (items[i].isSpecialEdition && items[i].sold && items[i].seller == _seller) {
+                count++;
+            }
+        }
+        // create an array to store the special edition buyers
+        address[] memory specialEditionBuyers = new address[](count);
+        // loop through all items again and add the special edition buyers to the array
+        uint index = 0;
+        for (uint i = 1; i <= itemCount; i++) {
+            if (items[i].isSpecialEdition && items[i].sold && items[i].seller == _seller) {
+                specialEditionBuyers[index] = items[i].nft.ownerOf(items[i].tokenId);
+                index++;
+            }
+        }
+        return specialEditionBuyers;
+    }
+
+    function resell(uint _itemId, uint _newPrice) external nonReentrant {
+        Item storage item = items[_itemId];
+        require(_itemId > 0 && _itemId <= itemCount, "item doesn't exist");
+        require(msg.sender == items[_itemId].nft.ownerOf(items[_itemId].tokenId), "only the owner can resell the item");
+
+        itemCount ++;
+        // add new item to items mapping
+        item.nft.transferFrom(msg.sender, address(this), item.tokenId);
+        items[itemCount] = Item (
+            itemCount,
+            item.nft,
+            item.tokenId,
+            _newPrice,
+            item.seller,
+            false,
+            item.isSpecialEdition
+        );
+
+        emit Offered(
+            _itemId,
+            address(item.nft),
+            item.tokenId,
+            _newPrice,
+            item.seller,
+            item.isSpecialEdition
+        );
+    }
+
+
 
 }

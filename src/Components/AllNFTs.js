@@ -1,24 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import { ethers } from "ethers";
 import { ItemsContext } from "./Context/ItemsContext";
-import { ItemsProvider } from "./Context/ItemsContext";
-import CreatorNFT from "./CreatorNFT";
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import "./Card.css";
 
@@ -72,7 +56,6 @@ const Home = ({ marketplace, nft, accountInfo }) => {
     });
 
     setItemsBySeller(itemsBySellerMap);
-    console.log(itemsBySellerMap);
     let allSellerInformation = [];
     Promise.all(
       Array.from(itemsBySellerMap.keys()).map(async (seller, index) => {
@@ -81,7 +64,6 @@ const Home = ({ marketplace, nft, accountInfo }) => {
         allSellerInformation.push(sellerInformation);
       })
     ).then(() => {
-      console.log(allSellerInformation);
       setSellerInfo(allSellerInformation);
     });
 
@@ -99,8 +81,8 @@ const Home = ({ marketplace, nft, accountInfo }) => {
 
   if (loading)
     return (
-      <main style={{ padding: "1rem 0" }}>
-        <h2>Loading...</h2>
+      <main style={{ padding: "1rem 0", textAlign: "center" }}>
+        <CircularProgress />
       </main>
     );
   if (!allItems) {
@@ -118,7 +100,9 @@ const Home = ({ marketplace, nft, accountInfo }) => {
           paddingTop: "3vh",
         }}
       >
-        Creator NFT Collection
+        {sellersInfo.length === 0
+          ? "NFTs NOT CURRENTLY FOR SALE"
+          : "Creator NFT Collection"}
       </div>
       <div className="card-wrapper">
         {sellersInfo.map((seller) => (
@@ -126,20 +110,20 @@ const Home = ({ marketplace, nft, accountInfo }) => {
             <div className="card-img">
               <img
                 src={seller[3]}
-                class="card-img-top"
+                className="card-img-top"
                 alt=""
                 aria-hidden="true"
               />
             </div>
-            <div class="card-title">
+            <div className="card-title">
               <h3>{seller[0]}</h3>
             </div>
-            <div class="card-details">
+            <div className="card-details">
               <p>{seller[2]} Lorem ipsum dolor sit amet consectetur, </p>
             </div>
-            <div class="card-meta"></div>
-            <div class="card-seperator"></div>
-            <div class="card-creator">
+            <div className="card-meta"></div>
+            <div className="card-seperator"></div>
+            <div className="card-creator">
               <Button
                 variant="outlined"
                 component="a"

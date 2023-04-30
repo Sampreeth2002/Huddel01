@@ -53,17 +53,10 @@ const Room = ({ roomId }) => {
   }, []);
 
   const fetchStreams = async () => {
-    console.log("in fetch Stream");
-    console.log(fetchAudioStream.isCallable);
-    console.log(fetchVideoStream.isCallable);
-
     if (fetchAudioStream.isCallable && fetchVideoStream.isCallable) {
-      console.log("Inside if");
       try {
         fetchVideoStream();
         fetchAudioStream();
-
-        console.log("sgd");
       } catch (error) {
         console.error(error);
       }
@@ -186,7 +179,6 @@ const Room = ({ roomId }) => {
       <button
         disabled={!startRecording.isCallable}
         onClick={() => {
-          console.log("https://huddle-recorder.vercel.app/");
           startRecording("https://huddle-recorder.vercel.app/");
         }}
       >

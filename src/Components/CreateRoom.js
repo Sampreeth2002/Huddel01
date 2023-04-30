@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import lighthouse from "@lighthouse-web3/sdk";
 
 async function createRoom(title, hostWallets) {
   const response = await fetch(
@@ -41,6 +50,8 @@ function CreateRoom({ marketplace, nft, room }) {
   const [title, setTitle] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
   let [roomId, setRoomId] = useState("");
+  const [image, setImage] = useState("");
+  const [description, setDescription] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -57,14 +68,24 @@ function CreateRoom({ marketplace, nft, room }) {
       .catch((error) => console.error(error));
   }
 
-  function handleChange(event) {
-    setTitle(event.target.value);
-  }
+  const progressCallback = (progressData) => {
+    let percentageDone =
+      100 - (progressData?.total / progressData?.uploaded)?.toFixed(2);
+  };
+
+  const uploadFile = async (e) => {
+    const output = await lighthouse.upload(
+      e,
+      "7f431ff1.e8fc8d458b6645348cb20014441117a8",
+      progressCallback
+    );
+    setImage("https://gateway.lighthouse.storage/ipfs/" + output.data.Hash);
+  };
 
   useEffect(() => {
     async function createRoomAsync() {
-      if (roomId) {
-        const tx = await room.createRoom(roomId, title, {
+      if (roomId && image && description) {
+        const tx = await room.createRoom(title, roomId, description, image, {
           from: walletAddress,
         });
         await tx.wait();
@@ -72,19 +93,86 @@ function CreateRoom({ marketplace, nft, room }) {
     }
 
     createRoomAsync();
-  }, [roomId, title, walletAddress, room]);
+  }, [roomId, title, walletAddress, room, image]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Title:
-        <input type="text" value={title} onChange={handleChange} />
-      </label>
-      <button type="submit">Create Room</button>
+    // <form onSubmit={handleSubmit}>
+    //   <label>
+    //     Title:
+    //     <input type="text" value={title} onChange={handleChange} />
+    //   </label>
+    //   <button type="submit">Create Room</button>
 
-      {walletAddress && <p>Current wallet address: {walletAddress}</p>}
-      {roomId && <p>Room Id : {roomId}</p>}
-    </form>
+    //   {walletAddress && <p>Current wallet address: {walletAddress}</p>}
+    //   {roomId && <p>Room Id : {roomId}</p>}
+    // </form>
+    <div style={{ textAlign: "center" }}>
+      <Grid container spacing={2} alignItems="center" justifyContent="center">
+        <Grid item xs={12} style={{ paddingTop: "7vh" }}>
+          <Typography
+            style={{ color: "white", fontSize: "4vh", paddingBottom: "3vh" }}
+          >
+            Create Room
+          </Typography>
+          <Grid item xs={12} style={{ paddingBottom: "3vh" }}>
+            <TextField
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              label="Room Name"
+              style={{
+                borderColor: "rgb(59,130,246,0.5)",
+                borderWidth: "2px",
+                borderRadius: "3px",
+                borderStyle: "solid",
+              }}
+              InputLabelProps={{
+                style: { color: "white" },
+              }}
+              InputProps={{
+                style: { color: "white" },
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} style={{ paddingBottom: "3vh" }}>
+            <TextField
+              onChange={(e) => setDescription(e.target.value)}
+              required
+              label="Description"
+              style={{
+                borderColor: "rgb(59,130,246,0.5)",
+                borderWidth: "2px",
+                borderRadius: "3px",
+                borderStyle: "solid",
+              }}
+              InputLabelProps={{
+                style: { color: "white" },
+              }}
+              InputProps={{
+                style: { color: "white" },
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <label htmlFor="" style={{ color: "white", marginRight: "2vw" }}>
+              Select Image for Room
+            </label>
+
+            <input
+              type="file"
+              required
+              name="file"
+              onChange={uploadFile}
+              style={{ color: "white" }}
+            />
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Button onClick={handleSubmit} variant="contained" size="large">
+            Create Room
+          </Button>
+        </Grid>
+      </Grid>
+    </div>
   );
 }
 

@@ -13,11 +13,8 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import Home from "./AllNFTs";
-import Create from "./Create";
-
-const logo = require("./VideoJockey2.png");
+import LogoIcon from "./logo huddle - 2.png";
+// const logo = require("./vidcast-removebg-preview.png");
 
 const Navigation = ({ web3Handler, account }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,8 +23,22 @@ const Navigation = ({ web3Handler, account }) => {
     setIsOpen(!isOpen);
   };
 
-  const pages = ["Home", "Create NFT", "My NFT's", "Buy Creator NFT's"];
-  const links = ["/", "/create", "/my-purchases", "/all-nfts"];
+  const pages = [
+    "Home",
+    "Create NFT",
+    "My NFT's",
+    "Buy Creator NFT's",
+    "All Rooms",
+    "Create Room",
+  ];
+  const links = [
+    "/",
+    "/create",
+    "/my-purchases",
+    "/all-nfts",
+    "/all-rooms",
+    "create-room",
+  ];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -48,74 +59,11 @@ const Navigation = ({ web3Handler, account }) => {
   };
 
   return (
-    // <Box sx={{ flexGrow: 1 }}>
-    //   <AppBar position="static" color="inherit">
-    //     <Container>
-    //       <Toolbar>
-    //         <IconButton
-    //           edge="start"
-    //           color="inherit"
-    //           aria-label="menu"
-    //           sx={{ mr: 2 }}
-    //           onClick={toggleDrawer}
-    //         >
-    //           <MenuIcon />
-    //         </IconButton>
-    //         <img src={logo} width="150" height="100" />
-    //         <Box sx={{ flexGrow: 1 }} />
-    //         <div>
-    //           <Button color="inherit" component={Link} to="/">
-    //             Home
-    //           </Button>
-    //           <Button color="inherit" component={Link} to="/create">
-    //             Create
-    //           </Button>
-    //           <Button color="inherit" component={Link} to="/my-listed-items">
-    //             My Listed Items
-    //           </Button>
-    //           <Button color="inherit" component={Link} to="/my-purchases">
-    //             My Purchases
-    //           </Button>
-    //           <Button color="inherit" component={Link} to="/all-rooms">
-    //             All rooms
-    //           </Button>
-    //         </div>
-    //         <div>
-    //           <Button
-    //             color="inherit"
-    //             href={`https://etherscan.io/address/${account}`}
-    //             target="_blank"
-    //             rel="noopener noreferrer"
-    //           >
-    //             {account
-    //               ? `${account.slice(0, 5)}...${account.slice(38, 42)}`
-    //               : ""}
-    //           </Button>
-    //         </div>
-    //       </Toolbar>
-    //     </Container>
-    //   </AppBar>
-    //   <Drawer anchor="left" open={isOpen} onClose={toggleDrawer}>
-    //     <List>
-    //       {links.map((link) => (
-    //         <ListItem
-    //           button
-    //           key={link.label}
-    //           component={Link}
-    //           to={link.link}
-    //           onClick={toggleDrawer}
-    //         >
-    //           <ListItemText primary={link.label} />
-    //         </ListItem>
-    //       ))}
-    //     </List>
-    //   </Drawer>
-    // </Box>
-
     <AppBar position="static" sx={{ backgroundColor: "black" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
+
           <Typography
             variant="h6"
             noWrap
@@ -124,14 +72,15 @@ const Navigation = ({ web3Handler, account }) => {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "revert-layer",
+              fontFamily: "cursive",
               fontWeight: 300,
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
             }}
           >
-            Video Jockey
+            <Avatar src={LogoIcon} alt="Logo" style={{ marginRight: "8px" }} />
+            <span style={{ marginTop: "3px" }}> VidCast </span>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -175,7 +124,8 @@ const Navigation = ({ web3Handler, account }) => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
+
           <Typography
             variant="h5"
             noWrap
@@ -192,7 +142,8 @@ const Navigation = ({ web3Handler, account }) => {
               textDecoration: "none",
             }}
           >
-            Video Jockey
+            <Avatar src={LogoIcon} alt="Logo" />
+            VidCast
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page, index) => (
@@ -221,7 +172,11 @@ const Navigation = ({ web3Handler, account }) => {
             </Button>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt="Sampreeth"
+                  src={`https://robohash.org/${account}`}
+                  style={{ width: 50, height: 25 }}
+                />
               </IconButton>
             </Tooltip>
             <Menu

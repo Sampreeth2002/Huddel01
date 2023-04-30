@@ -1,8 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { ethers } from "ethers";
 import lighthouse from "@lighthouse-web3/sdk";
-import { Row, Form, Button } from "react-bootstrap";
 
 async function getWalletAddress() {
   // Check if MetaMask is installed and enabled
@@ -31,16 +38,47 @@ export default function Signup({ accountInfo }) {
 
   const uploadDetails = async () => {
     if (image !== "") {
-      console.log(image);
       const address = await getWalletAddress();
       setWalletAddress(address);
 
-      console.log(accountInfo);
+      const PRIVATE_KEY = "07e9dcde-22dd-4445-b0d4-557fabcc44cf";
 
-      const tx = await accountInfo.createUser(name, description, image, {
-        from: address,
-      });
-      await tx.wait();
+      const createUser = async (name, address, description, image) => {
+        try {
+          const myHeaders = new Headers();
+          myHeaders.append("PRIVATE-KEY", PRIVATE_KEY);
+          myHeaders.append("Content-Type", "application/json");
+
+          const data = {
+            username: name,
+            first_name: name,
+            last_name: name,
+            secret: String(address).toUpperCase(),
+          };
+
+          const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: JSON.stringify(data),
+            redirect: "follow",
+          };
+
+          const response = await fetch(
+            "https://api.chatengine.io/users/",
+            requestOptions
+          );
+          const result = await response.text();
+
+          const tx = await accountInfo.createUser(name, description, image, {
+            from: address,
+          });
+          await tx.wait();
+        } catch (error) {
+          console.log("error", error);
+        }
+      };
+
+      createUser(name, address, description, image);
     }
   };
 
@@ -61,7 +99,7 @@ export default function Signup({ accountInfo }) {
 
   return (
     <>
-      <Row>
+      {/* <Row>
         <Form.Control
           onChange={(e) => setName(e.target.value)}
           size="lg"
@@ -88,6 +126,75 @@ export default function Signup({ accountInfo }) {
           </Button>
         </div>
       </Row>
+       */}
+
+      <div style={{ textAlign: "center" }}>
+        <Grid container spacing={2} alignItems="center" justifyContent="center">
+          <Grid item xs={12} style={{ paddingTop: "7vh" }}>
+            <Typography style={{ color: "white", fontSize: "4vh" }}>
+              Create New Account
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              onChange={(e) => setName(e.target.value)}
+              required
+              label="Name"
+              style={{
+                borderColor: "rgb(59,130,246,0.5)",
+                borderWidth: "2px",
+                borderRadius: "3px",
+                borderStyle: "solid",
+                color: "white",
+              }}
+              InputLabelProps={{
+                style: { color: "white" },
+              }}
+              InputProps={{
+                style: { color: "white" },
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              onChange={(e) => setDescription(e.target.value)}
+              required
+              label="Description"
+              style={{
+                borderColor: "rgb(59,130,246,0.5)",
+                borderWidth: "2px",
+                borderRadius: "3px",
+                borderStyle: "solid",
+              }}
+              InputLabelProps={{
+                style: { color: "white" },
+              }}
+              InputProps={{
+                style: { color: "white" },
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <label htmlFor="" style={{ color: "white", marginRight: "2vw" }}>
+              Select your Avatar :
+            </label>
+            <input
+              type="file"
+              required
+              name="file"
+              onChange={uploadFile}
+              style={{ color: "white" }}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Button onClick={uploadDetails} variant="contained" size="large">
+              SignUp!
+            </Button>
+          </Grid>
+        </Grid>
+      </div>
     </>
   );
 }

@@ -27,7 +27,6 @@ export default function Test() {
       storageAbi,
       signer
     );
-    console.log("Jai datta");
 
     const tx = await storage.store(value);
     await tx.wait(); // Wait for the transaction to be mined

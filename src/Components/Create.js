@@ -8,6 +8,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import lighthouse from "@lighthouse-web3/sdk";
 import "./Card.css";
@@ -20,6 +22,7 @@ const Create = ({ marketplace, nft }) => {
   const [price, setPrice] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [isSpecialEdition, setIsSpecialEdition] = useState(false);
 
   useEffect(() => {
     async function getUserAddress() {
@@ -35,7 +38,6 @@ const Create = ({ marketplace, nft }) => {
   const progressCallback = (progressData) => {
     let percentageDone =
       100 - (progressData?.total / progressData?.uploaded)?.toFixed(2);
-    console.log(percentageDone);
   };
 
   const uploadFile = async (e) => {
@@ -47,11 +49,19 @@ const Create = ({ marketplace, nft }) => {
     setImage("https://gateway.lighthouse.storage/ipfs/" + output.data.Hash);
   };
 
+  const handleChange = (event, edition) => {
+    setIsSpecialEdition(edition);
+  };
+
   const createNFT = async () => {
     if (!image || !price || !name || !description) return;
     try {
       const result = JSON.stringify({ image, price, name, description });
       mintThenList(result, userAddress);
+      setImage("");
+      setPrice("");
+      setName("");
+      setDescription("");
     } catch (error) {}
   };
 
@@ -64,7 +74,15 @@ const Create = ({ marketplace, nft }) => {
     await (await nft.setApprovalForAll(marketplace.address, true)).wait();
     // add nft to marketplace
     const listingPrice = ethers.utils.parseEther(price.toString());
-    await (await marketplace.makeItem(nft.address, id, listingPrice)).wait();
+
+    await (
+      await marketplace.makeItem(
+        nft.address,
+        id,
+        listingPrice,
+        isSpecialEdition
+      )
+    ).wait();
   };
   return (
     <div style={{ textAlign: "center" }}>
@@ -134,6 +152,9 @@ const Create = ({ marketplace, nft }) => {
           />
         </Grid>
         <Grid item xs={12}>
+          <label htmlFor="" style={{ color: "white", marginRight: "2vw" }}>
+            Select Image for NFT :
+          </label>
           <input
             type="file"
             required
@@ -141,6 +162,38 @@ const Create = ({ marketplace, nft }) => {
             onChange={uploadFile}
             style={{ color: "white" }}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <ToggleButtonGroup
+            color="primary"
+            value={isSpecialEdition}
+            exclusive
+            onChange={handleChange}
+            aria-label="Platform"
+          >
+            <ToggleButton
+              value={true}
+              style={{
+                color: "white",
+                backgroundColor:
+                  isSpecialEdition === true ? "rgb(59,130,246,0.5)" : "initial",
+              }}
+            >
+              Special Edition NFT
+            </ToggleButton>
+            <ToggleButton
+              value={false}
+              style={{
+                color: "white",
+                backgroundColor:
+                  isSpecialEdition === false
+                    ? "rgb(59,130,246,0.5)"
+                    : "initial",
+              }}
+            >
+              Standard Edition NFT
+            </ToggleButton>
+          </ToggleButtonGroup>
         </Grid>
         <Grid item xs={12}>
           <Button onClick={createNFT} variant="contained" size="large">

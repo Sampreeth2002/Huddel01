@@ -16,29 +16,29 @@ export default function CreatorNFT({
   const [sellerItemsForCreator, setSellerItemsForCreator] = useState([]);
   const [sellerInformation, setSellerInformation] = useState([]);
 
+  const getSellerInformation = async () => {
+    if (allItems) {
+      const information = Array.from(allItems.values())
+        .filter((sellerItems) => sellerItems[0].seller === creatorAddress)
+        .flatMap((sellerItems) => sellerItems);
+      setSellerItemsForCreator(information);
+      const sellerInformation = await accountInfo.getUser(creatorAddress);
+      setSellerInformation(sellerInformation);
+    }
+  };
+
   const buyMarketItem = async (item) => {
     if (item) {
-      console.log(item);
       await (
         await marketplace.purchaseItem(item.itemId, {
           value: item.totalPrice,
         })
       ).wait();
+      getSellerInformation();
     }
   };
 
   useEffect(() => {
-    const getSellerInformation = async () => {
-      if (allItems) {
-        const information = Array.from(allItems.values())
-          .filter((sellerItems) => sellerItems[0].seller === creatorAddress)
-          .flatMap((sellerItems) => sellerItems);
-        setSellerItemsForCreator(information);
-        const sellerInformation = await accountInfo.getUser(creatorAddress);
-        setSellerInformation(sellerInformation);
-      }
-    };
-
     getSellerInformation();
   }, [allItems, creatorAddress]);
 
@@ -58,8 +58,27 @@ export default function CreatorNFT({
             <h3>{item.name}</h3>
           </div>
           <div className="card-details">
-            <p>{item.description}</p>
+            <p>{item.description} Lorem, ipsum dolor sit amet consectetur</p>
+            {item.isSpecialEdition ? (
+              <div>
+                <br />
+                <span
+                  style={{
+                    backgroundColor: "#ffd700",
+                    padding: "0.25vw",
+                    borderRadius: "5px",
+                    color: "black",
+                    fontSize: "10px",
+                  }}
+                >
+                  SPECIAL EDITION
+                </span>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
+          <br />
           <div className="card-meta">
             <div className="left">
               <span>
@@ -74,13 +93,19 @@ export default function CreatorNFT({
               </p>
             </div>
             <div className="right">
-              <Button
-                variant="outlined"
-                style={{ padding: "1vw" }}
-                onClick={() => buyMarketItem(item)}
-              >
-                Buy NFT
-              </Button>
+              {creatorAddress === userInfo[1] ? (
+                ""
+              ) : (
+                <>
+                  <Button
+                    variant="outlined"
+                    style={{ padding: "1vw" }}
+                    onClick={() => buyMarketItem(item)}
+                  >
+                    Buy NFT
+                  </Button>
+                </>
+              )}
             </div>
           </div>
           <div className="card-seperator"></div>
