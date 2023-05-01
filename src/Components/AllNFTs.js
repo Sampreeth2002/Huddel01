@@ -105,8 +105,8 @@ const Home = ({ marketplace, nft, accountInfo }) => {
           : "Creator NFT Collection"}
       </div>
       <div className="card-wrapper">
-        {sellersInfo.map((seller) => (
-          <div className="card">
+        {sellersInfo.map((seller, idx) => (
+          <div className="card" key={idx}>
             <div className="card-img">
               <img
                 src={seller[3]}

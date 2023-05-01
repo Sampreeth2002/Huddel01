@@ -1,0 +1,82 @@
+.test2 {
+  /* display: none; */
+  height: 100% !important;
+}
+
+.ce-chat-list {
+  font-family: "Outfit", sans-serif !important;
+}
+
+.ce-chats-container {
+  background-color: hsl(217, 54%, 11%) !important;
+  color: white !important;
+  border-radius: 0px !important;
+}
+
+.ce-chat-feed {
+  background-color: hsl(217, 54%, 11%) !important;
+  color: white !important;
+}
+
+.ce-settings {
+  font-family: inherit !important;
+}
+
+.ce-active-chat-card {
+  background-color: hsl(216, 50%, 16%) !important;
+}
+
+.ce-feed-container-top {
+  background-color: hsl(216, 50%, 16%) !important;
+}
+
+.ce-chat-title-container {
+  background-color: hsl(216, 50%, 16%) !important;
+}
+
+.ce-message-data-text {
+  background-color: hsl(216, 50%, 16%) !important;
+}
+
+.ce-chat-feed-container {
+  background-color: hsl(216, 50%, 16%) !important;
+}
+
+.ce-message-date-text {
+  color: white !important;
+}
+
+.ql-editor {
+  background-color: hsl(216, 50%, 16%) !important;
+}
+
+#toolbar {
+  background-color: hsl(216, 50%, 16%) !important;
+}
+
+#toolbar button {
+  color: white !important;
+  /* background-color: white !important; */
+}
+
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+
+.ce-settings {
+  background-color: hsl(216, 50%, 16%) !important;
+}
+
+.ce-photo-title-container {
+  background-color: hsl(216, 50%, 16%) !important;
+  border: 0px !important;
+}
+
+.ce-photo-section > div {
+  border: none !important;
+}
+
+#ce-options-drop-down {
+  background-color: hsl(216, 50%, 16%) !important;
+}

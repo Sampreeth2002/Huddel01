@@ -44,8 +44,8 @@ export default function CreatorNFT({
 
   return (
     <div className="card-wrapper">
-      {sellerItemsForCreator.map((item) => (
-        <div className="card">
+      {sellerItemsForCreator.map((item, idx) => (
+        <div className="card" key={idx}>
           <div className="card-img">
             <img
               src={item.image}

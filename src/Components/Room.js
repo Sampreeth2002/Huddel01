@@ -10,13 +10,40 @@ import {
 } from "@huddle01/react/hooks";
 import { useState, useEffect, useRef } from "react";
 import { Video, Audio } from "@huddle01/react/components";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import CircularProgress from "@mui/material/CircularProgress";
+import MicIcon from "@mui/icons-material/Mic";
+import MicOffIcon from "@mui/icons-material/MicOff";
+import VideocamTwoToneIcon from "@mui/icons-material/VideocamTwoTone";
+import VideocamOffTwoToneIcon from "@mui/icons-material/VideocamOffTwoTone";
+import Button from "@mui/material/Button";
 
-const Room = ({ roomId }) => {
+const Room = ({ roomId, isHost }) => {
+  const [isVideoOn, setIsVideoOn] = useState(false);
+  const [isMicOn, setIsMicOn] = useState(false);
+  const [isRecordingOn, setIsRecordingOff] = useState(false);
+  const [value, setValue] = useState("recents");
+  const [isJoinedRoom, setIsJoinedRoom] = useState(false);
+
   const { initialize, isInitialized } = useHuddle01();
   const [isPeerInitialized, setIsPeerInitialized] = useState(false);
   const { joinLobby } = useLobby();
   const [isPeerJoinedLobby, setIsPeerJoinedLobby] = useState(false);
-  const [isVideoOn, setIsVideoOn] = useState(false);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const showAlert = () => {
+    if (isVisible) {
+      // if the alert is visible return
+      return;
+    }
+    setIsVisible(true);
+    setTimeout(() => setIsVisible(false), 2500); // hide the alert after 2.5s
+  };
+
   const {
     startRecording,
     stopRecording,
@@ -45,6 +72,29 @@ const Room = ({ roomId }) => {
   const { joinRoom, leaveRoom } = useRoom();
 
   const { peerIds, peers } = usePeers();
+
+  const handleVideoClick = () => {
+    setIsVideoOn(!isVideoOn);
+    if (!isVideoOn && produceVideo.isCallable) {
+      produceVideo(camStream);
+    } else if (stopProducingVideo.isCallable) {
+      stopProducingVideo();
+    }
+  };
+
+  const handleMicClick = async () => {
+    if (!isMicOn && produceAudio.isCallable) produceAudio(micStream);
+    else if (stopProducingVideo.isCallable) stopProducingAudio();
+    setIsMicOn(!isMicOn);
+  };
+
+  const handleRecordClick = () => {
+    setIsRecordingOff(!isRecordingOn);
+  };
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     // its preferable to use env vars to store projectId
@@ -101,95 +151,52 @@ const Room = ({ roomId }) => {
     stopAudioStream.isCallable,
   ]);
 
+  useEffect(() => {
+    if (leaveRoom.isCallable && produceVideo.isCallable) {
+      showAlert();
+      setIsJoinedRoom(true);
+    }
+  }, [leaveRoom.isCallable, produceVideo.isCallable]);
+
   const videoRef = useRef(null);
 
   useEventListener("lobby:cam-on", () => {
     if (state.context.camStream && videoRef.current)
       videoRef.current.srcObject = state.context.camStream;
   });
-  if (inProgress) return <div>...loading</div>;
+  if (inProgress)
+    return (
+      <div>
+        <CircularProgress />
+      </div>
+    );
+
   return (
     <div>
-      {/* <h2>App State</h2>
-      <h3>{JSON.stringify(state.value)}</h3> */}
-      {/* {isInitialized ? "Hello World!" : "Please initialize"} */}
-      <button
-        disabled={!joinLobby.isCallable}
-        // onClick={() => joinLobby(roomId)}
-      >
-        Join Lobby
-      </button>
-
-      {/* Mic */}
-      <button
-        disabled={!fetchAudioStream.isCallable}
-        onClick={fetchAudioStream}
-      >
-        FETCH_AUDIO_STREAM
-      </button>
-
-      {/* Webcam */}
-      <button
-        disabled={!fetchVideoStream.isCallable}
-        onClick={fetchVideoStream}
-      >
-        FETCH_VIDEO_STREAM
-      </button>
-
-      <button disabled={!stopVideoStream.isCallable} onClick={stopVideoStream}>
-        STOP_VIDEO_STREAM
-      </button>
-
-      <button disabled={!joinRoom.isCallable} onClick={joinRoom}>
-        JOIN_ROOM
-      </button>
-
-      <button disabled={!leaveRoom.isCallable} onClick={leaveRoom}>
-        LEAVE_ROOM
-      </button>
-
-      <button
-        disabled={!produceVideo.isCallable}
-        onClick={() => produceVideo(camStream)}
-      >
-        Produce Cam
-      </button>
-
-      <button
-        disabled={!produceAudio.isCallable}
-        onClick={() => produceAudio(micStream)}
-      >
-        Produce Mic
-      </button>
-
-      <button
-        disabled={!stopProducingVideo.isCallable}
-        onClick={stopProducingVideo}
-      >
-        Stop Producing Cam
-      </button>
-
-      <button
-        disabled={!stopProducingAudio.isCallable}
-        onClick={stopProducingAudio}
-      >
-        Stop Producing Mic
-      </button>
-
-      <button
-        disabled={!startRecording.isCallable}
-        onClick={() => {
-          startRecording("https://huddle-recorder.vercel.app/");
+      {console.log(isHost)}
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          right: "0.5rem",
+          border: "1px solid rgba(0, 0, 0, 0.2)",
+          borderRadius: "0.25rem",
+          padding: "2rem",
+          background: "hsl(215, 32%, 27%)",
+          color: "white",
+          boxShadow: "0 5px 10px -5px rgba(0, 0, 0, 0.5)",
+          transition: "all 0.2s ease-in-out",
+          opacity: 0,
+          transform: "translateY(1.25rem)",
+          ...(isVisible && {
+            opacity: 1,
+            transform: "translateY(0)",
+          }),
         }}
       >
-        START_RECORDING
-      </button>
+        You have joined the room
+      </div>
 
-      {isStarting ? "Recording is starting" : recordingError}
-
-      <button disabled={!stopRecording.isCallable} onClick={stopRecording}>
-        STOP_RECORDING
-      </button>
       <div
         style={{
           display: "grid",
@@ -197,7 +204,12 @@ const Room = ({ roomId }) => {
           gap: "10px",
         }}
       >
-        <video ref={videoRef} autoPlay muted></video>
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          style={{ display: isVideoOn ? "block" : "none" }}
+        ></video>
         <div>
           {Object.values(peers)
             .filter((peer) => peer.cam)
@@ -216,11 +228,101 @@ const Room = ({ roomId }) => {
                 key={peer.peerId}
                 peerId={peer.peerId}
                 track={peer.mic}
-                debug
+                // debug
               />
             ))}
         </div>
       </div>
+      {isJoinedRoom && isHost ? (
+        <div>
+          <Button
+            variant="text"
+            style={{
+              position: "fixed",
+              bottom: "60px",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            Joined as Co-Host
+          </Button>
+          <BottomNavigation
+            sx={{
+              width: 500,
+              margin: "auto",
+              position: "fixed",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              backgroundColor: "hsl(216, 50%, 16%)",
+              zIndex: 999,
+            }}
+            value={value}
+            onChange={handleChange}
+          >
+            <BottomNavigationAction
+              onClick={handleVideoClick}
+              icon={
+                <VideocamTwoToneIcon
+                  label="Video-On"
+                  value="video-on"
+                  style={{
+                    color: "#1976d2",
+                    backgroundColor: isVideoOn ? "" : "#ff726f",
+                    fontSize: "25px",
+                    borderRadius: "5px",
+                  }}
+                />
+              }
+            />
+
+            <BottomNavigationAction
+              onClick={handleMicClick}
+              icon={
+                <MicIcon
+                  label="Mic-On"
+                  value="mic-on"
+                  style={{
+                    color: "#1976d2",
+                    backgroundColor: isMicOn ? "" : "#ff726f",
+                    fontSize: "25px",
+                    borderRadius: "5px",
+                  }}
+                />
+              }
+            />
+            <BottomNavigationAction
+              onClick={handleRecordClick}
+              disabled={!leaveRoom.isCallable}
+              icon={
+                isRecordingOn ? (
+                  <RadioButtonCheckedIcon
+                    label="Recording-On"
+                    value="recording-on"
+                  />
+                ) : (
+                  <RadioButtonUncheckedIcon
+                    label="Recording-Off"
+                    value="recording-off"
+                  />
+                )
+              }
+            />
+          </BottomNavigation>
+        </div>
+      ) : (
+        <Button
+          variant="text"
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        >
+          Joined as Viewer
+        </Button>
+      )}
     </div>
   );
 };

@@ -146,14 +146,14 @@ export default function MyPurchases({
                       </p>
                     </div>
                     <div className="right">
-                      <Button
+                      {/* <Button
                         variant="outlined"
                         component="a"
                         href={`/resell-nft/${item.itemId}`}
                         style={{ padding: "1vw" }}
                       >
                         Re-Sell NFT
-                      </Button>
+                      </Button> */}
                     </div>
                   </div>
                   <div className="card-seperator"></div>

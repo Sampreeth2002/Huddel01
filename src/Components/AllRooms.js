@@ -9,7 +9,7 @@ export default function AllRooms({ room, accountInfo, userInfo }) {
   let [currentUserRoomId, setCurrentUserRoomId] = useState("");
 
   const deActive = async () => {
-    console.log("De-active");
+
     await room.setRoomInactive(parseInt(currentUserRoomId, 16), false);
     setIsCurrentUserRoomActive(false);
   };
@@ -21,9 +21,8 @@ export default function AllRooms({ room, accountInfo, userInfo }) {
         Object.values(activeRooms).map(async (r) => {
           const roomDetails = await room.getRoom(r._hex);
           const roomCreator = await accountInfo.getUser(roomDetails[4]);
-          console.log("sdgsdjsdsdb");
           if (userInfo[1] === roomDetails[4]) {
-            console.log("sdvsd");
+
             setIsCurrentUserRoomActive(true);
             setCurrentUserRoomId(r._hex);
           }
@@ -69,7 +68,6 @@ export default function AllRooms({ room, accountInfo, userInfo }) {
             </div>
           </div>
           <div>
-            {console.log(isCurrentUserRoomActive)}
             {isCurrentUserRoomActive && (
               <Button variant="outlined" color="error" onClick={deActive}>
                 Disable Active Room

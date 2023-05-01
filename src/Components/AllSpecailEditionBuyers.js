@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ChatEngine, getOrCreateChat } from "react-chat-engine";
 
+import "./Chat.css";
+
 export default function AllSpecailEditionBuyers({
   userInfo,
   marketplace,
@@ -29,7 +31,12 @@ export default function AllSpecailEditionBuyers({
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         /> */}
-        <button onClick={() => createDirectChat(creds)}>Create</button>
+        <button
+          onClick={() => createDirectChat(creds)}
+          style={{ display: "none" }}
+        >
+          Create
+        </button>
       </div>
     );
   }
@@ -52,8 +59,9 @@ export default function AllSpecailEditionBuyers({
   }, []);
 
   return (
-    <div>
+    <div className="test1">
       <ChatEngine
+        className="test2"
         projectID="fa6b62e6-bef5-44df-956d-12826a0e7700"
         userName={userInfo[0]}
         userSecret={String(userInfo[1]).toUpperCase()}

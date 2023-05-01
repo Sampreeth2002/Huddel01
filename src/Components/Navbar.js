@@ -28,8 +28,9 @@ const Navigation = ({ web3Handler, account }) => {
     "Create NFT",
     "My NFT's",
     "Buy Creator NFT's",
-    "All Rooms",
+    "All Live Rooms",
     "Create Room",
+    "Chat",
   ];
   const links = [
     "/",
@@ -38,6 +39,7 @@ const Navigation = ({ web3Handler, account }) => {
     "/all-nfts",
     "/all-rooms",
     "create-room",
+    "/all-special-edition-nft-buyers",
   ];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);

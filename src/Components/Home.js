@@ -1,25 +1,40 @@
 import React, { useState, useContext } from "react";
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { ItemsContext } from "./Context/ItemsContext";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import VideocamOffIcon from "@mui/icons-material/VideocamOff";
+import MicIcon from "@mui/icons-material/Mic";
+import MicOffIcon from "@mui/icons-material/MicOff";
+
 import "../App.css";
 import "./Room.css";
 
 function Home() {
   const { allItems, userInfo } = useContext(ItemsContext);
+  const [isVideoOn, setIsVideoOn] = useState(true);
+  const [isMicOn, setIsMicOn] = useState(true);
+  const [isRecordingOn, setIsRecordingOff] = useState(false);
+
+  const handleVideoClick = () => {
+    setIsVideoOn(!isVideoOn);
+  };
+
+  const handleMicClick = () => {
+    setIsMicOn(!isMicOn);
+  };
+
+  const handleRecordClick = () => {
+    setIsRecordingOff(!isRecordingOn);
+  };
+
+  const [value, setValue] = React.useState("recents");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <>
@@ -93,6 +108,75 @@ function Home() {
             </figure>
           </div>
         </div>
+        <BottomNavigation
+          sx={{
+            width: 500,
+            margin: "auto",
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: "hsl(216, 50%, 16%)",
+            // color: "",
+            zIndex: 999,
+          }}
+          value={value}
+          onChange={handleChange}
+        >
+          <BottomNavigationAction
+            label={isVideoOn ? "Video-On" : "Video-Off"}
+            value="mic-on"
+            onClick={handleVideoClick}
+            icon={
+              isVideoOn ? (
+                <VideocamIcon label="Video-On" value="video-on" />
+              ) : (
+                <VideocamOffIcon label="Video-Off" value="video-off" />
+              )
+            }
+          />
+          {/* <BottomNavigationAction
+            label="Mic-on"
+            value="mic-on"
+            icon={<MicIcon />}
+          /> */}
+          <BottomNavigationAction
+            label={isMicOn ? "Mic-On" : "Mic-Off"}
+            value="mic-on"
+            onClick={handleMicClick}
+            icon={
+              isMicOn ? (
+                <MicIcon label="Mic-On" value="mic-on" />
+              ) : (
+                <MicOffIcon label="Mic-Off" value="mic-off" />
+              )
+            }
+          />
+          <BottomNavigationAction
+            disabled={true}
+            label={isRecordingOn ? "Recording-On" : "Recording-Off"}
+            value="mic-on"
+            onClick={handleRecordClick}
+            icon={
+              isRecordingOn ? (
+                <RadioButtonCheckedIcon
+                  label="Recording-On"
+                  value="recording-on"
+                />
+              ) : (
+                <RadioButtonUncheckedIcon
+                  label="Recording-Off"
+                  value="recording-off"
+                />
+              )
+            }
+          />
+          {/* <BottomNavigationAction
+            label="Folder"
+            value="folder"
+            icon={<FolderIcon />}
+          /> */}
+        </BottomNavigation>
       </div>
     </>
   );

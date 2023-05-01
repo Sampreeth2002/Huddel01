@@ -9,3 +9,21 @@
     margin: 0 auto;
   }
 }
+
+@media (max-width: 1025px) {
+  /* hide the element when screen size is less than or equal to 768px */
+  .screen {
+    display: none;
+  }
+  .small-screen {
+    display: block !important;
+    text-align: center;
+    color: white;
+    margin-top: 100px;
+  }
+}
+
+.small-screen {
+  display: none;
+  color: white;
+}

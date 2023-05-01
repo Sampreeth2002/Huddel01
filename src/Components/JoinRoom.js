@@ -10,6 +10,7 @@ export default function JoinRoom({ nft, marketplace, room }) {
   const [roomOwnerAddress, setRoomOwnerAddress] = useState("");
   const [isNftHolder, setIsNftHolder] = useState(false);
   const [isCreator, setIsCreator] = useState(false);
+  const [isHost, setIsHost] = useState(false);
 
   useEffect(() => {
     async function getUserAddress() {
@@ -36,6 +37,7 @@ export default function JoinRoom({ nft, marketplace, room }) {
     if (userAddress.toUpperCase() === roomOwnerAddress.toUpperCase()) {
       setIsCreator(true);
       setIsNftHolder(true);
+      setIsHost(true);
       // return;
     }
     // Fetch purchased items from marketplace by quering Offered events with the buyer set as the user
@@ -43,10 +45,16 @@ export default function JoinRoom({ nft, marketplace, room }) {
     for (let i = 1; i <= itemCount; i++) {
       const item = await marketplace.items(i);
       const presentOwner = await marketplace.getNftOwner(i);
+
       if (presentOwner.toUpperCase() === userAddress.toUpperCase()) {
         if (item.seller.toUpperCase() === roomOwnerAddress.toUpperCase()) {
           if (item.sold === true) {
+            console.log(item);
             setIsNftHolder(true);
+            if (item.isSpecialEdition) {
+              setIsHost(true);
+              console.log("sdvnsdjvn");
+            }
           }
         }
       }
@@ -59,9 +67,13 @@ export default function JoinRoom({ nft, marketplace, room }) {
     <div>
       <div>
         {isNftHolder ? (
-          <Room roomId={roomId} />
+          <Room roomId={roomId} isHost={isHost} />
         ) : (
-          "Not Authorized to join the room"
+          <div
+            style={{ color: "white", textAlign: "center", marginTop: "100px" }}
+          >
+            Not Authorized to join the room
+          </div>
         )}
       </div>
     </div>
