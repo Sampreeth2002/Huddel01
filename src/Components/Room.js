@@ -207,7 +207,7 @@ const Room = ({ roomId, isHost }) => {
           disabled={!startRecording.isCallable}
           onClick={() => {
             console.log(window.location.origin + "/record/" + roomId);
-            startRecording(window.location.origin + "/record" + { roomId });
+            startRecording(window.location.origin + "/record/" + roomId);
           }}
         >
           START_RECORDING
