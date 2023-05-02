@@ -173,7 +173,6 @@ const Room = ({ roomId, isHost }) => {
 
   return (
     <div>
-      {console.log(isHost)}
       <div
         style={{
           position: "fixed",
@@ -204,6 +203,19 @@ const Room = ({ roomId, isHost }) => {
           gap: "10px",
         }}
       >
+        <button
+          disabled={!startRecording.isCallable}
+          onClick={() => {
+            console.log(window.location.origin + "/record/" + roomId);
+            startRecording(window.location.origin + "/record" + { roomId });
+          }}
+        >
+          START_RECORDING
+        </button>
+        {isStarting ? "Recording is starting" : recordingError}
+        <button disabled={!stopRecording.isCallable} onClick={stopRecording}>
+          STOP_RECORDING
+        </button>
         <video
           ref={videoRef}
           autoPlay
