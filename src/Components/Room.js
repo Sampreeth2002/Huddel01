@@ -48,7 +48,7 @@ const Room = ({ roomId, isHost }) => {
     startRecording,
     stopRecording,
     isStarting,
-    inProgress,
+    inProgress: recordingInProgress,
     isStopping,
     error: recordingError,
   } = useRecording();
@@ -164,12 +164,12 @@ const Room = ({ roomId, isHost }) => {
     if (state.context.camStream && videoRef.current)
       videoRef.current.srcObject = state.context.camStream;
   });
-  if (inProgress)
-    return (
-      <div>
-        <CircularProgress />
-      </div>
-    );
+  // if (inProgress)
+  //   return (
+  //     <div>
+  //       <CircularProgress />
+  //     </div>
+  //   );
 
   return (
     <div>
@@ -212,7 +212,7 @@ const Room = ({ roomId, isHost }) => {
         >
           START_RECORDING
         </button>
-        {isStarting ? "Recording is starting" : recordingError}
+        {recordingInProgress ? "Recording is starting" : recordingError}
         <button disabled={!stopRecording.isCallable} onClick={stopRecording}>
           STOP_RECORDING
         </button>
