@@ -58,7 +58,7 @@ export default function CreatorNFT({
             <h3>{item.name}</h3>
           </div>
           <div className="card-details">
-            <p>{item.description} Lorem, ipsum dolor sit amet consectetur</p>
+            <p>{item.description}</p>
             {item.isSpecialEdition ? (
               <div>
                 <br />

@@ -14,6 +14,7 @@ const Home = ({ marketplace, nft, accountInfo }) => {
   const [sellersInfo, setSellerInfo] = useState([]);
 
   useEffect(() => {
+    console.log(allItems);
     loadMarketplaceItems();
   }, []);
 
@@ -24,6 +25,8 @@ const Home = ({ marketplace, nft, accountInfo }) => {
       .map((_, i) => i + 1)
       .map((i) =>
         marketplace.items(i).then(async (item) => {
+          console.log(item);
+
           if (item.sold) return null;
           // get uri url from nft contract
           const uri = await nft.tokenURI(item.tokenId);
@@ -119,7 +122,7 @@ const Home = ({ marketplace, nft, accountInfo }) => {
               <h3>{seller[0]}</h3>
             </div>
             <div className="card-details">
-              <p>{seller[2]} Lorem ipsum dolor sit amet consectetur, </p>
+              <p>{seller[2]}</p>
             </div>
             <div className="card-meta"></div>
             <div className="card-seperator"></div>

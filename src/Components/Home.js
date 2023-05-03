@@ -1,34 +1,10 @@
 import React, { useState, useContext } from "react";
-import { ItemsContext } from "./Context/ItemsContext";
 import Button from "@mui/material/Button";
 
 import "../App.css";
 import "./Room.css";
 
 function Home() {
-  const { allItems, userInfo } = useContext(ItemsContext);
-  const [isVideoOn, setIsVideoOn] = useState(true);
-  const [isMicOn, setIsMicOn] = useState(true);
-  const [isRecordingOn, setIsRecordingOff] = useState(false);
-
-  const handleVideoClick = () => {
-    setIsVideoOn(!isVideoOn);
-  };
-
-  const handleMicClick = () => {
-    setIsMicOn(!isMicOn);
-  };
-
-  const handleRecordClick = () => {
-    setIsRecordingOff(!isRecordingOn);
-  };
-
-  const [value, setValue] = React.useState("recents");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   return (
     <>
       <div>

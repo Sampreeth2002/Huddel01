@@ -53,7 +53,7 @@ export default function Signup({ accountInfo }) {
             username: name,
             first_name: name,
             last_name: name,
-            secret: String(address).toUpperCase(),
+            secret: "Password",
           };
 
           const requestOptions = {

@@ -64,7 +64,7 @@ export default function AllSpecailEditionBuyers({
         className="test2"
         projectID="fa6b62e6-bef5-44df-956d-12826a0e7700"
         userName={userInfo[0]}
-        userSecret={String(userInfo[1]).toUpperCase()}
+        userSecret="Password"
         renderNewChatForm={(creds) => renderChatForm(creds)}
         style={{
           backgroundColor: "red !important",
