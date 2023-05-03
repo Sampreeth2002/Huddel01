@@ -58,13 +58,14 @@ function Home() {
         </div> */}
 
         <div style={{ color: "white", marginLeft: "20px" }}>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent:"center"}}>
             <div style={{ marginRight: "100px" }}>
               <p
                 style={{
                   marginLeft: "20px",
                   width: "600px",
                   textAlign: "center",
+                  fontSize:"medium",
                 }}
               >
                 {" "}
@@ -86,11 +87,11 @@ function Home() {
           </div>
           <br />
           <br />
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center" , margin: "0pc 10pc 0pc 10pc"}}>
             <h4 style={{ color: "hsl(215, 51%, 70%)" }}>
               Craft and Showcase Your Unique NFT Collection
             </h4>
-            <p style={{ marginTop: "15px" }}>
+            <p style={{ marginTop: "15px",fontSize:"medium", }}>
               {" "}
               You can list your NFTs in our marketplace, which features both
               Standard and Special Editions. We use LightHouse SDK to ensure
@@ -113,7 +114,7 @@ function Home() {
             <h4 style={{ color: "hsl(215, 51%, 70%)" }}>
               Enjoy Exclusive Perks with Special Edition NFTs
             </h4>
-            <p style={{ marginTop: "15px" }}>
+            <p style={{ marginTop: "15px",fontSize:"medium", }}>
               {" "}
               - Experience added benefits when purchasing Special Edition NFTs
             </p>
@@ -133,7 +134,7 @@ function Home() {
             <h4 style={{ color: "hsl(215, 51%, 70%)" }}>
               Manage Your NFT Purchases with Ease
             </h4>
-            <p style={{ marginTop: "15px" }}>
+            <p style={{ marginTop: "15px",fontSize:"medium", }}>
               {" "}
               - Keep track of your favorite creator's NFTs and your own
               collection
@@ -153,7 +154,7 @@ function Home() {
             <h4 style={{ color: "hsl(215, 51%, 70%)" }}>
               Create Rooms and Talk to Your NFT Buyers
             </h4>
-            <p style={{ marginTop: "15px" }}>
+            <p style={{ marginTop: "15px",fontSize:"medium", }}>
               {" "}
               - Engage with your NFT buyers in dedicated rooms powered by Huddle
               SDK
@@ -177,11 +178,11 @@ function Home() {
           </div>
           <br />
           <br />
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center", marginBottom:"2pc" }}>
             <h4 style={{ color: "hsl(215, 51%, 70%)" }}>
               Connect with Creators through Special NFT Holder Chats
             </h4>
-            <p style={{ marginTop: "15px" }}>
+            <p style={{ marginTop: "15px",fontSize:"medium", }}>
               {" "}
               - Foster direct communication using dedicated chat sections
             </p>

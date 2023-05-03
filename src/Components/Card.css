@@ -35,7 +35,7 @@ body {
 
 .card {
   width: 327px;
-  height: 543px;
+  height: 623px;
   background: var(--card-bg-blue);
   padding: 24px;
   margin: auto;
@@ -104,6 +104,7 @@ body {
 
 .card-meta .left {
   color: var(--cyan);
+  padding: 2pc 0pc 2pc 0pc;
 }
 
 .card-meta .right {
