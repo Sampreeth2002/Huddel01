@@ -47,9 +47,7 @@ Most of the above problems are solved by going through the documentation and exa
 
 ## Tech Stack
 
-**Client:** React, Material UI
-
-**Server:** Solidity, Huddle01, LightHouse, FVM, FileCoin
+React, Material UI, Solidity, Huddle01, LightHouse, FVM, FileCoin
 
 
 ## Run Locally
