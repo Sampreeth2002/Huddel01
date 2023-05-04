@@ -105,7 +105,7 @@ Start the server
 ## Demo
 https://www.youtube.com/watch?v=RFE0nQjjIyk
 
-[![Watch the video](https://img.youtube.com/vi/RFE0nQjjIyk/maxresdefault.jpg)](https://youtu.be/RFE0nQjjIyk)
+[![Watch the video](https://img.youtube.com/vi/RFE0nQjjIyk/0.jpg)](https://youtu.be/RFE0nQjjIyk)
 
 
 
