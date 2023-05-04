@@ -3,10 +3,20 @@
 Where NFTs Ignite Creativity and Foster Community.
 
 Checkout our work here : https://huddel01.vercel.app/
+Youtube Link : https://www.youtube.com/watch?v=RFE0nQjjIyk
 
 
 ## About the Project
 VidCast is a unique platform that allows *creators/ influencers/ celebrities to monetize their content* through NFT collections, while viewers can have access to exclusive perks and features based on the NFTs they purchase.The platform also provides a community aspect, where users can interact with each other and the creators in real-time through the room and chat features.
+
+## Features
+
+- Gated entry to live rooms
+- Create NFT ( Special Editions and Standard Editions)
+- NFT's Marketplace
+- Chat (Only with special editions users)
+
+
 ## Problems solved by VidCast
 - **Comprehensive Platform for Creators and Viewers** : VidCast provides a platform where users can both *create and consume content*.
 
@@ -83,12 +93,6 @@ Start the server
 - [@Prateek Agrawal](https://github.com/prateekin)
 
 
-## Features
-
-- Gated entry to live rooms
-- Create NFT ( Special Editions and Standard Editions)
-- NFT's Marketplace
-- Chat (Only with special editions users)
 
 
 ## Smart Contracts
@@ -99,7 +103,7 @@ Start the server
 - NFT Smart contract :- https://beryx.zondax.ch/v1/search/fil/hyperspace/address/f410f77hkr3lzgcsq3y4bugckfgq3lmjnd4ikqjrfwmi
 - Room Smart contract :- https://beryx.zondax.ch/v1/search/fil/hyperspace/address/f410fpe4ylric6w3h7tsm2yf6t7eki6xyp3265ywh2uq
 
-## FLowchart
+## Flowchart
 ![image](https://user-images.githubusercontent.com/82581367/236132523-48a693c2-3dfc-44d3-851f-1a2be4991108.png)
 
 ## Demo
