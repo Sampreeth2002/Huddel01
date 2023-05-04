@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+*{
+  font-family: 'Roboto Mono', monospace;
+}
 @media (min-width: 1024px) {
   /* apply flex styles only on screens with a minimum width of 1024px (laptop size) */
   .card-container {

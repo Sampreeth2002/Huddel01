@@ -203,19 +203,7 @@ const Room = ({ roomId, isHost }) => {
           gap: "10px",
         }}
       >
-        <button
-          disabled={!startRecording.isCallable}
-          onClick={() => {
-            console.log(window.location.origin + "/record/" + roomId);
-            startRecording(window.location.origin + "/record/" + roomId);
-          }}
-        >
-          START_RECORDING
-        </button>
-        {recordingInProgress ? "Recording is starting" : recordingError}
-        <button disabled={!stopRecording.isCallable} onClick={stopRecording}>
-          STOP_RECORDING
-        </button>
+
         <video
           ref={videoRef}
           autoPlay
