@@ -98,6 +98,10 @@ Start the server
 - Marketplace Smart contract :- https://beryx.zondax.ch/v1/search/fil/hyperspace/address/f410fnjtcleupoaf4zvnr5h2bokqvfrvh4jmodyudr7a
 - NFT Smart contract :- https://beryx.zondax.ch/v1/search/fil/hyperspace/address/f410f77hkr3lzgcsq3y4bugckfgq3lmjnd4ikqjrfwmi
 - Room Smart contract :- https://beryx.zondax.ch/v1/search/fil/hyperspace/address/f410fpe4ylric6w3h7tsm2yf6t7eki6xyp3265ywh2uq
+
+## FLowchart
+![image](https://user-images.githubusercontent.com/82581367/236132523-48a693c2-3dfc-44d3-851f-1a2be4991108.png)
+
 ## Demo
 
 We can insert video here
