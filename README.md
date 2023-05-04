@@ -1,70 +1,111 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# VidCast : 
+Where NFTs Ignite Creativity and Foster Community.
 
-## Available Scripts
+Checkout our work here : https://huddel01.vercel.app/
 
-In the project directory, you can run:
 
-### `npm start`
+## About the Project
+VidCast is a unique platform that allows *creators/ influencers/ celebrities to monetize their content* through NFT collections, while viewers can have access to exclusive perks and features based on the NFTs they purchase.The platform also provides a community aspect, where users can interact with each other and the creators in real-time through the room and chat features.
+## Problems solved by VidCast
+- **Comprehensive Platform for Creators and Viewers** : VidCast provides a platform where users can both *create and consume content*.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Engagement between NFT creators and buyers** : VidCast allows creators to create *exclusive rooms for their NFT buyers* and have direct communication with "Special Edition NFT" holders through *video calling powered by Huddle SDK* and a secure chat system fostering more engagement and connection between creators and buyers.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+-  **Secure storage for NFT files** : VidCast utilizes *Lighthouse SDK* to securely store NFT files created using *ERC721*, such as PNG, JPEG, etc images.
 
-### `npm test`
+-  **Robust Infrastructure for Smart Contract Deployment** : Inadequate infrastructure for deploying smart contracts: VidCast deploys smart contracts on the *FVM* using Filecoin Hyperspace (testnet) for a *robust NFT ecosystem*.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Easy Creation and Showcase of NFT Collections** : VidCast allows creators to easily *create and showcase their unique NFT collections* in the marketplace.
 
-### `npm run build`
+-  **More Options and Perks for NFT Buyers** : VidCast offers two types of NFTs (Standard and Special Edition), giving buyers more options and added *perks when purchasing Special Edition NFTs*.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Streamlined NFT Purchase Management** : VidCast makes it easy for users to *manage and keep track of their NFT purchases*.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Overall, VidCast solves the problem of a fragmented NFT market by providing a comprehensive platform that benefits both creators and buyers, and offers a *secure and engaging environment for NFT transactions*.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Problems encountered while developing the VidCast website:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+* Providing smart contracts for NFTs using ERC721 and integrating Filecoin for selling in the marketplace, providing a royalty structure for the original inventor, and storing metadata such as picture links using Lighthouse SDK.
 
-## Learn More
+* Redeploying the smart contract in the event of a change that results in data loss.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Learning how to use Filecoin Hyperspace to install smart contracts in the FVM and call the necessary read/write functions from the front end.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Implementing a gated feature that only allows NFT purchasers to access live rooms while denying them permission to use their video and audio.
 
-### Code Splitting
+* Creating a feature that only allows a creator's Special Edition NFT purchasers to use their video and audio in live rooms.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+* The process of integrating the chat feature exclusively for "Special Edition NFT" buyers and not for Standard Edition NFT buyers was time-consuming.
 
-### Analyzing the Bundle Size
+Most of the above problems are solved by going through the documentation and example projects of SDK and also discussing with the Huddle01 Discord Community.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+## Tech Stack
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**Client:** React, Material UI
 
-### Advanced Configuration
+**Server:** Solidity, Huddle01, LightHouse, FVM, FileCoin
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## Run Locally
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Clone the project
 
-### `npm run build` fails to minify
+```bash
+  git clone https://github.com/Sampreeth2002/Huddel01
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Go to the project directory
+
+```bash
+  cd Huddel01
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+
+## Authors
+
+- [@Sampreeth Miriyala](https://github.com/Sampreeth2002)
+- [@Prateek Agrawal](https://github.com/prateekin)
+
+
+## Features
+
+- Gated entry to live rooms
+- Create NFT ( Special Editions and Standard Editions)
+- NFT's Marketplace
+- Chat (Only with special editions users)
+
+
+## Smart Contracts
+
+
+- Account Smart contract :- https://beryx.zondax.ch/v1/search/fil/hyperspace/address/f410fygki7oph7i5d4t6ndtspmwrcdpl2rg6se62g3jy
+- Marketplace Smart contract :- https://beryx.zondax.ch/v1/search/fil/hyperspace/address/f410fnjtcleupoaf4zvnr5h2bokqvfrvh4jmodyudr7a
+- NFT Smart contract :- https://beryx.zondax.ch/v1/search/fil/hyperspace/address/f410f77hkr3lzgcsq3y4bugckfgq3lmjnd4ikqjrfwmi
+- Room Smart contract :- https://beryx.zondax.ch/v1/search/fil/hyperspace/address/f410fpe4ylric6w3h7tsm2yf6t7eki6xyp3265ywh2uq
+## Demo
+
+We can insert video here
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at sampreeth2002@gmail.com
+
